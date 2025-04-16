@@ -1,10 +1,10 @@
 import pandas as pd
 import requests
 from datetime import datetime
-from sqlalchemy import create_engine
-from db_models import Base
+from sqlalchemy import create_engine, text
+from db_models import Base, CompositeScore
 
-def get_composite_score(db_uri, fred_key, weights=None):
+def get_composite_score(db_uri, fred_key, weights=None, save=True):
     """
     Get composite score using today's sentiment and FRED macro data
     :param db_uri: Database connection string
@@ -132,4 +132,67 @@ def get_composite_score(db_uri, fred_key, weights=None):
         'composite_score': 'mean'
     }).reset_index()
 
+    if save and not grouped_df.empty:
+        save_composite_score(db_uri, grouped_df)
+
     return grouped_df
+
+def save_composite_score(db_uri, composite_df):
+    """Save composite scores to database"""
+    from sqlalchemy.orm import sessionmaker
+    
+    engine = create_engine(db_uri)
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    
+    try:
+        session = Session()
+        today = datetime.today().date()
+        
+        '''Delete existing entries for today - prevent duplicates'''
+        session.query(CompositeScore)\
+            .filter(CompositeScore.date == today)\
+            .delete()
+            
+        '''Convert DataFrame to database objects'''
+        records = []
+        for _, row in composite_df.iterrows():
+            records.append(CompositeScore(
+                stock=row['stock'],
+                date=today,
+                sentiment=row['sentiment'],
+                vix=row['vix'],
+                composite_score=row['composite_score']
+            ))
+        
+        session.add_all(records)
+        session.commit()
+        print(f"Saved {len(records)} composite scores for {today}")
+        
+    except Exception as e:
+        session.rollback()
+        print(f"Error saving scores: {str(e)}")
+    finally:
+        session.close()
+
+def get_historical(db_uri, days=30):
+    """Retrieve historical composite scores (SQLite compatible)"""
+    engine = create_engine(db_uri)
+    
+    query = f"""
+        SELECT stock, date, sentiment, vix, composite_score 
+        FROM composite_scores 
+        WHERE date >= date('now', '-{days} days')
+        ORDER BY date DESC, stock
+    """
+
+    return pd.read_sql(
+        text("""
+            SELECT stock, date, sentiment, vix, composite_score 
+            FROM composite_scores 
+            WHERE date >= date(:current_date, '-' || :days || ' days')
+            ORDER BY date DESC, stock
+        """),
+        engine,
+        params={'current_date': 'now', 'days': days}
+    )
