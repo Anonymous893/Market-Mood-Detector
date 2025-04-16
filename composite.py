@@ -179,6 +179,11 @@ def get_historical(db_uri, days=30):
     """Retrieve historical composite scores (SQLite compatible)"""
     engine = create_engine(db_uri)
     
+    try:
+        return pd.read_sql(...)
+    except SQLAlchemyError as e:
+        raise RuntimeError(f"Database error: {str(e)}")
+        
     query = f"""
         SELECT stock, date, sentiment, vix, composite_score 
         FROM composite_scores 
