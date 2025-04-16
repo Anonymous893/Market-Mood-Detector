@@ -210,3 +210,32 @@ class StockNews:
             else:
                 print(df.to_string(index=False))
             return df
+
+    def cleanup_old_data(self):
+        """Remove all data older than today"""
+        today = dt.datetime.today().date()
+        session = self.Session()
+        
+        try:
+            '''Delete news entries'''
+            session.query(News).filter(
+                func.date(News.published) < today
+            ).delete(synchronize_session=False)
+            
+            '''Delete summary entries'''
+            session.query(Summary).filter(
+                func.date(Summary.check_day) < today
+            ).delete(synchronize_session=False)
+            
+            '''Delete composite scores'''
+            session.query(CompositeScore).filter(
+                CompositeScore.date < today
+            ).delete(synchronize_session=False)
+            
+            session.commit()
+            print(f"\nRemoved all pre-{today} data")
+        except Exception as e:
+            session.rollback()
+            print(f"Cleanup failed: {str(e)}")
+        finally:
+            session.close()
