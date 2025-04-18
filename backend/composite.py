@@ -3,6 +3,7 @@ import requests
 from datetime import datetime
 from sqlalchemy import create_engine, text
 from db_models import Base, CompositeScore
+from sqlalchemy.exc import SQLAlchemyError
 
 def get_composite_score(db_uri, fred_key, weights=None, save=True):
     """
@@ -175,29 +176,30 @@ def save_composite_score(db_uri, composite_df):
     finally:
         session.close()
 
-def get_historical(db_uri, days=30):
-    """Retrieve historical composite scores (SQLite compatible)"""
+def get_historical(db_uri, days=30, stock=None):
+    """Retrieve historical composite scores with daily averages"""
     engine = create_engine(db_uri)
     
-    try:
-        return pd.read_sql(...)
-    except SQLAlchemyError as e:
-        raise RuntimeError(f"Database error: {str(e)}")
-        
-    query = f"""
-        SELECT stock, date, sentiment, vix, composite_score 
-        FROM composite_scores 
-        WHERE date >= date('now', '-{days} days')
+    base_query = """
+        SELECT 
+            stock,
+            date,
+            AVG(sentiment) as sentiment,
+            AVG(composite_score) as composite_score,
+            AVG(vix) as vix
+        FROM composite_scores
+        WHERE date >= date('now', '-%d days')
+    """ % days
+    
+    if stock:
+        base_query += f" AND stock = '{stock}'"
+    
+    base_query += """
+        GROUP BY stock, date
         ORDER BY date DESC, stock
     """
-
-    return pd.read_sql(
-        text("""
-            SELECT stock, date, sentiment, vix, composite_score 
-            FROM composite_scores 
-            WHERE date >= date(:current_date, '-' || :days || ' days')
-            ORDER BY date DESC, stock
-        """),
-        engine,
-        params={'current_date': 'now', 'days': days}
-    )
+    
+    try:
+        return pd.read_sql(base_query, engine)
+    except SQLAlchemyError as e:
+        raise RuntimeError(f"Database error: {str(e)}") from e
