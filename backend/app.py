@@ -15,8 +15,10 @@ load_dotenv()
 BASEDIR = Path(__file__).parent.resolve()
 app = Flask(__name__)
 #app.config['DB_URI'] = f'sqlite:///{BASEDIR}/stock_news.db'
-app.config['DB_URI'] = os.getenv('DATABASE_URL')
 CORS(app)
+
+engine = create_engine(os.getenv('DATABASE_URL'))
+Base.metadata.create_all(engine)
 
 @app.route('/news', methods=['POST'])
 def fetch_news():
