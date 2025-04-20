@@ -8,3 +8,4 @@ python-dateutil==2.8.2
 python-dotenv==1.1.0
 requests==2.32.3
 sqlalchemy==2.0.40
+gunicorn==21.2.0
