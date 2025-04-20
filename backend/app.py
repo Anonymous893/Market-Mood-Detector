@@ -1,13 +1,13 @@
 from flask import Flask, jsonify, request
 import os
 from datetime import datetime
-from stock_news import StockNews
-from composite import get_composite_score, get_historical
+from .stock_news import StockNews
+from .composite import get_composite_score, get_historical
 from dotenv import load_dotenv
 from flask_cors import CORS
 from sqlalchemy import create_engine
 import traceback
-from db_models import Base 
+from .db_models import Base 
 from pathlib import Path
 
 load_dotenv()
