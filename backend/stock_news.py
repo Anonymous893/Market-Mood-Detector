@@ -5,8 +5,8 @@ from numpy import median
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from db_models import News, Summary
-from database import init_db, session_scope
+from .db_models import News, Summary
+from .database import init_db, session_scope
 import requests
 import pandas as pd
 

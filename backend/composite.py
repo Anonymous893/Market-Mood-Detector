@@ -2,7 +2,7 @@ import pandas as pd
 import requests
 from datetime import datetime
 from sqlalchemy import create_engine, text
-from db_models import Base, CompositeScore
+from .db_models import Base, CompositeScore
 from sqlalchemy.exc import SQLAlchemyError
 
 def get_composite_score(db_uri, fred_key, weights=None, save=True):

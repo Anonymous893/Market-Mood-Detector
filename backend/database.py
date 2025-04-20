@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from contextlib import contextmanager
-from db_models import Base
+from .db_models import Base
 
 def init_db(db_uri):
     engine = create_engine(db_uri)

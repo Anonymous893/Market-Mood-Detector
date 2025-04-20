@@ -1,5 +1,5 @@
-from stock_news import StockNews
-from composite import get_composite_score, get_historical
+from .stock_news import StockNews
+from .composite import get_composite_score, get_historical
 
 def main():
     sn = StockNews(
