@@ -1,4 +1,7 @@
 __pycache__/
-.pytest_cache
+venv/
+env/
 frontend/node_modules/
-frontend/README.md
+frontend/build/
+.pytest_cache
+build/
