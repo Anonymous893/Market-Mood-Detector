@@ -46,13 +46,14 @@ Set up environment variables in .env file: can get API keys from FRED and World 
 
 #### Frontend
 Go to the frontend directory
-    ```sh
-    cd frontend
-    ```
+   ```sh
+   cd frontend
+   ```
+
 Install dependencies with
-    ```
-    npm install
-    ```
+   ```sh
+   npm init
+   ```
 
 #### Running
 In separate terminals:
