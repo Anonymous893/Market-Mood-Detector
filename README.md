@@ -19,14 +19,15 @@ Python, NodeJS should already be installed. PostgreSQL should also be installed,
    git clone https://github.com/Anonymous893/Market-Mood-Detector.git
    ```
 #### Backend
-First, go to the backend directory
-    ```sh
-    cd backend
-    ```
+Go to the backend directory
+   ```sh
+   cd backend
+   ```
 Create and activate virtual environment
-    ```sh
+   ```sh
    python -m venv venv
    ```
+
 1. Mac/Linux
    ```sh
    source venv/bin/activate
@@ -35,10 +36,12 @@ Create and activate virtual environment
    ```sh
    venv\Scripts\activate
    ```
+
 Install Python dependencies
     ```sh
     pip install -r requirements.txt
     ```
+    
 Set up environment variables in .env file: can get API keys from FRED and World Trading, and database URL
 
 #### Frontend
