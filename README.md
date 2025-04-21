@@ -68,6 +68,10 @@ In separate terminals:
     npm start
     ```
 
+## Issues
+[] Deployment
+[] Getting things to work on the interface with other stocks
+
 <!-- USAGE EXAMPLES -->
 ## Screenshots
 ![Start Page][home-screenshot]
