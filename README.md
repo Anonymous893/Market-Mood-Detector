@@ -14,7 +14,7 @@ Python, NodeJS should already be installed. PostgreSQL should also be installed,
 
 ### Installation
 
-1. Clone the repo
+Clone the repo
    ```sh
    git clone https://github.com/Anonymous893/Market-Mood-Detector.git
    ```
@@ -38,10 +38,10 @@ Create and activate virtual environment
    ```
 
 Install Python dependencies
-    ```sh
-    pip install -r requirements.txt
-    ```
-    
+   ```sh
+   pip install -r requirements.txt
+   ```
+
 Set up environment variables in .env file: can get API keys from FRED and World Trading, and database URL
 
 #### Frontend
