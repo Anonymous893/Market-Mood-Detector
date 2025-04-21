@@ -19,6 +19,7 @@ Python, NodeJS should already be installed. PostgreSQL should also be installed,
    git clone https://github.com/Anonymous893/Market-Mood-Detector.git
    ```
 #### Backend
+First, go to the backend directory
     ```sh
     cd backend
     ```
@@ -41,10 +42,11 @@ Install Python dependencies
 Set up environment variables in .env file: can get API keys from FRED and World Trading, and database URL
 
 #### Frontend
+Go to the frontend directory
     ```sh
     cd frontend
     ```
-Install dependencies
+Install dependencies with
     ```
     npm install
     ```
@@ -62,17 +64,13 @@ In separate terminals:
     npm start
     ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 <!-- USAGE EXAMPLES -->
 ## Screenshots
-[![Start Page][home-screenshot]
-[![Analyse Page][analyse-screenshot]
-[![Specific Stock Page][specific-screenshot]
-
+![Start Page][home-screenshot]
+![Analysis Page][analyse-screenshot]
+![Specific Stock Page][specific-screenshot]
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[home-screenshot]: screenshots/analyse.png
+[home-screenshot]: screenshots/home.png
 [analyse-screenshot]: screenshots/analyse.png
-[specific-screenshot]: sreenshots/specific.png
+[specific-screenshot]: screenshots/specific.png
