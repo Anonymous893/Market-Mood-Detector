@@ -73,13 +73,6 @@ In separate terminals:
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[home-screenshot]: images/analyse.png
-[analyse-screenshot]: images/analyse.png
-[specific-screenshot]: images/specific.png
-
-[JavaScript]: https://img.shields.io/badge/JavaScript-FFD1DC?style=for-the-badge&logo=javascript&logoColor=black
-[JS-url]: https://www.javascript.com/
-[HTML5]: https://img.shields.io/badge/HTML-957DAD?style=for-the-badge&logo=html5&logoColor=white
-[HTML-url]: https://html.com/
-[CSS3]: https://img.shields.io/badge/CSS-A2BFFE?&style=for-the-badge&logo=css3&logoColor=white
-[CSS-url]: https://developer.mozilla.org/en-US/docs/Web/CSS
+[home-screenshot]: screenshots/analyse.png
+[analyse-screenshot]: screenshots/analyse.png
+[specific-screenshot]: sreenshots/specific.png
