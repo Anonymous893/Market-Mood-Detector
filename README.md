@@ -69,8 +69,8 @@ In separate terminals:
     ```
 
 ## Issues
-[] Deployment
-[] Getting things to work on the interface with other stocks
+* Deployment
+* Getting things to work on the interface with other stocks
 
 <!-- USAGE EXAMPLES -->
 ## Screenshots
