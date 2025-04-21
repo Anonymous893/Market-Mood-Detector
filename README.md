@@ -2,4 +2,84 @@
 
 A dashboard for analysing market sentiment and technical indicators of stocks, featuring real-time composite scoring and historical trend visualisation.
 
-Currently, the website only works for the Magnificent 7 tech stocks. The python script in the backend does allow all stocks to be analysed, though.
+While the python script in the backend allows for all stocks to be analysed, the interactive page only works for Magnificent 7 stocks and locally.
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+To get things running locally, follow these steps.
+
+### Prerequisites
+Python, NodeJS should already be installed. PostgreSQL should also be installed, if that is the database that is being used. I used SQLite to for local actions.
+
+### Installation
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/Anonymous893/Market-Mood-Detector.git
+   ```
+#### Backend
+    ```sh
+    cd backend
+    ```
+Create and activate virtual environment
+    ```sh
+   python -m venv venv
+   ```
+1. Mac/Linux
+   ```sh
+   source venv/bin/activate
+   ```
+2. Windows
+   ```sh
+   venv\Scripts\activate
+   ```
+Install Python dependencies
+    ```sh
+    pip install -r requirements.txt
+    ```
+Set up environment variables in .env file: can get API keys from FRED and World Trading, and database URL
+
+#### Frontend
+    ```sh
+    cd frontend
+    ```
+Install dependencies
+    ```
+    npm install
+    ```
+
+#### Running
+In separate terminals:
+1. Terminal 1
+    ```
+    cd backend
+    python app.py
+    ```
+2. Terminal 2
+    ```
+    cd frontend
+    npm start
+    ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- USAGE EXAMPLES -->
+## Screenshots
+[![Start Page][home-screenshot]
+[![Analyse Page][analyse-screenshot]
+[![Specific Stock Page][specific-screenshot]
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[home-screenshot]: images/analyse.png
+[analyse-screenshot]: images/analyse.png
+[specific-screenshot]: images/specific.png
+
+[JavaScript]: https://img.shields.io/badge/JavaScript-FFD1DC?style=for-the-badge&logo=javascript&logoColor=black
+[JS-url]: https://www.javascript.com/
+[HTML5]: https://img.shields.io/badge/HTML-957DAD?style=for-the-badge&logo=html5&logoColor=white
+[HTML-url]: https://html.com/
+[CSS3]: https://img.shields.io/badge/CSS-A2BFFE?&style=for-the-badge&logo=css3&logoColor=white
+[CSS-url]: https://developer.mozilla.org/en-US/docs/Web/CSS
