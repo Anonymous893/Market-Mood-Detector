@@ -71,14 +71,3 @@ In separate terminals:
 ## Issues
 * Deployment
 * Getting things to work on the interface with other stocks
-
-<!-- USAGE EXAMPLES -->
-## Screenshots
-![Start Page][home-screenshot]
-![Analysis Page][analyse-screenshot]
-![Specific Stock Page][specific-screenshot]
-
-<!-- MARKDOWN LINKS & IMAGES -->
-[home-screenshot]: screenshots/home.png
-[analyse-screenshot]: screenshots/analyse.png
-[specific-screenshot]: screenshots/specific.png
