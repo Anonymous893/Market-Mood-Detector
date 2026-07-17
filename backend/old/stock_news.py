@@ -1,14 +1,13 @@
 import datetime as dt
-import feedparser
 import nltk
 from numpy import median
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from .db_models import News, Summary
 from .database import init_db, session_scope
 import requests
 import pandas as pd
+from .finbert_analyzer import FinBertAnalyzer
 
 class StockNews:
     YAHOO_URL = 'https://feeds.finance.yahoo.com/rss/2.0/headline?s=%s&region=US&lang=en-US'
@@ -35,6 +34,7 @@ class StockNews:
         self.db_uri = db_uri
         self.engine = init_db(db_uri)
         self.Session = scoped_session(sessionmaker(bind=self.engine))
+        self.nlp = FinBertAnalyzer()
 
     def read_rss(self):
         """
@@ -53,9 +53,8 @@ class StockNews:
                         continue
 
                     """Analyze the sentiment"""
-                    sia = SentimentIntensityAnalyzer()
-                    _summary = sia.polarity_scores(entry.summary)['compound']
-                    _title = sia.polarity_scores(entry.title)['compound']
+                    _summary = self.nlp.calculate_sentiment([entry.summary])
+                    _title = self.nlp.calculate_sentiment([entry.title])
 
                     """Parse the date"""
                     pub_date = dt.datetime.strptime(entry.published, '%a, %d %b %Y %H:%M:%S +0000')
