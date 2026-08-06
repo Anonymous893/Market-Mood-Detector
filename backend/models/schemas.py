@@ -30,3 +30,24 @@ class AnalysisResponse(BaseModel):
     verdict: str
     avg_sentiment: float
     history: List[HistoryEntry] = []
+
+class HealthResponse(BaseModel):
+    status: str
+    version: str
+    cache_entries: int
+    sentiment_model: str
+
+class BestWorstRun(BaseModel):
+    timestamp: str
+    sentiment: float
+    verdict: str
+
+class HistoryAnalytics(BaseModel):
+    total_runs: int
+    rolling_7d_avg_sentiment: float
+    rolling_30d_avg_sentiment: float
+    avg_confidence: float
+    best_run: Optional[BestWorstRun] = None
+    worst_run: Optional[BestWorstRun] = None
+    verdict_distribution: dict[str, int] = {}
+    moving_avg_series: list[float] = []

@@ -22,18 +22,18 @@ CACHE_TTL_SECONDS = 3600 # 1 hour
 def _utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
-# ── 1. Confidence Logic (Kept from your inspiration) ───────────
+# ── 1. Confidence Logic ───────────
 
 def _confidence(avg_sentiment, volatility, consensus, total, articles_24h, articles_7d):
-    magnitude  = min(abs(avg_sentiment) * 2.0, 1.0)
+    magnitude = min(abs(avg_sentiment) * 2.0, 1.0)
     vol_factor = max(0.0, 1.0 - volatility * 2.0)
-    volume     = min(total / 20.0, 1.0) # Adjusted for single-source Yahoo
-    recency    = min((articles_24h / max(articles_7d, 1)) * 2.0, 1.0)
+    volume = min(total / 20.0, 1.0)
+    recency = min((articles_24h / max(articles_7d, 1)) * 2.0, 1.0)
 
     raw = (magnitude * 0.40 + consensus * 0.30 + volume * 0.15 + recency * 0.10 + vol_factor * 0.05) * 100.0
     return round(min(raw, 100.0), 2)
 
-# ── 2. Trend Logic (Plugs into database.py) ─────────────────────
+# ── 2. Trend Logic ─────────────────────
 
 def _compute_trend(avg_sentiment, confidence, verdict, prev_history):
     if not prev_history:
