@@ -1,21 +1,95 @@
-from typing import Optional, List
+"""Pydantic response models for the Market Mood Detector API."""
+from __future__ import annotations
+
+from typing import Optional
+
 from pydantic import BaseModel, Field
-from datetime import datetime
+
 
 class ArticleResult(BaseModel):
-    guid: str
-    title: str
-    summary: str
-    url: Optional[str]
-    published: datetime
-    sentiment_title: float = 0.0
-    sentiment_summary: float = 0.0
+    text: str = Field(..., description="Headline text (up to 200 chars)")
+    score: float = Field(..., ge=-1.0, le=1.0, description="FinBERT sentiment score")
+    sentiment: str = Field(..., description="bullish | bearish | neutral")
+    source: str
+    source_weight: float = Field(..., description="Yahoo Finance source weight")
+    time_ago: str
+    hours_old: float
+    url: Optional[str] = None
+
+
+class Stats(BaseModel):
+    bullish: int
+    bearish: int
+    neutral: int
+
 
 class StockInfo(BaseModel):
-    ticker: str
     name: str
     sector: str
     current_price: float
+
+
+class AdvancedStats(BaseModel):
+    avg_sentiment: float
+    weighted_sentiment: float
+    volatility: float
+    momentum: float
+    sentiment_24h: float
+    sentiment_7d: float
+    articles_24h: int
+    articles_7d: int
+    bullish_ratio: float
+    bearish_ratio: float
+    neutral_ratio: float
+    consensus_strength: float
+    avg_article_age_hours: float
+    total_articles: int
+    deduplicated_count: int
+
+
+class TrendData(BaseModel):
+    direction: str = Field(..., description="improving | deteriorating | stable | new")
+    sentiment_delta: float
+    confidence_delta: float
+    prev_verdict: Optional[str]
+    verdict_changed: bool
+
+
+class SourceContribution(BaseModel):
+    articles: int
+    avg_sentiment: float
+    contribution_pct: float
+    avg_age_hours: float = 0.0
+
+
+class SourceHealth(BaseModel):
+    name: str
+    status: str = Field(..., description="ok | error")
+    duration_ms: int
+    articles: int
+    error: Optional[str] = None
+
+
+class AnalysisMeta(BaseModel):
+    articles_raw: int
+    duplicates_removed: int
+    sources_succeeded: int
+    sources_total: int
+    cached: bool
+
+
+class CacheMeta(BaseModel):
+    age_s: float
+    expires_in_s: float
+
+
+class TimingInfo(BaseModel):
+    fetch_s: float
+    dedup_ms: float
+    scoring_ms: float
+    aggregation_ms: float
+    total_s: float
+
 
 class HistoryEntry(BaseModel):
     timestamp: str
@@ -23,31 +97,40 @@ class HistoryEntry(BaseModel):
     confidence_score: float
     avg_sentiment: float
 
-class AnalysisResponse(BaseModel):
-    ticker: str
-    stock_info: StockInfo
-    articles: List[ArticleResult]
-    verdict: str
-    avg_sentiment: float
-    history: List[HistoryEntry] = []
-
-class HealthResponse(BaseModel):
-    status: str
-    version: str
-    cache_entries: int
-    sentiment_model: str
-
-class BestWorstRun(BaseModel):
-    timestamp: str
-    sentiment: float
-    verdict: str
 
 class HistoryAnalytics(BaseModel):
     total_runs: int
     rolling_7d_avg_sentiment: float
     rolling_30d_avg_sentiment: float
     avg_confidence: float
-    best_run: Optional[BestWorstRun] = None
-    worst_run: Optional[BestWorstRun] = None
-    verdict_distribution: dict[str, int] = {}
-    moving_avg_series: list[float] = []
+    best_run: dict
+    worst_run: dict
+    verdict_distribution: dict[str, int]
+    moving_avg_series: list[float]
+
+
+class AnalysisResponse(BaseModel):
+    ticker: str
+    verdict: str
+    confidence_score: float = Field(..., ge=0.0, le=100.0)
+    verdict_reasons: list[str]
+    model_used: str = Field("finbert", description="Sentiment model: finbert")
+    stats: Stats
+    top_comments: list[ArticleResult]
+    stock_info: Optional[StockInfo] = None
+    advanced_stats: Optional[AdvancedStats] = None
+    trend: Optional[TrendData] = None
+    source_contributions: dict[str, SourceContribution] = {}
+    source_health: list[SourceHealth] = []
+    meta: Optional[AnalysisMeta] = None
+    cache_meta: Optional[CacheMeta] = None
+    timing: Optional[TimingInfo] = None
+    history: list[HistoryEntry] = []
+    cached: bool = False
+
+
+class HealthResponse(BaseModel):
+    status: str
+    version: str
+    cache_entries: int
+    sentiment_model: str = "finbert"
