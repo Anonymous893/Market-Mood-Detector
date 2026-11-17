@@ -150,7 +150,7 @@ The score combines six factors:
 | Recency | **10%** | Gives greater importance to current news |
 | Signal stability | **5%** | Measures how consistent the sentiment signal is across the collected articles |
 
-The components are normalised and combined into a single score from **0–100%**.
+The components are normalized and combined into a single score from **0–100%**.
 
 ### Trend Detection
 
@@ -188,7 +188,7 @@ Enter ticker symbol
          Search / Dashboard / Charts / History / Loading
          |
          |---> HTTP / REST API
-               /analyze/{ticker}, /history/{ticker}, /analytics/{ticker}
+               /analyse/{ticker}, /history/{ticker}, /analytics/{ticker}
                     ┌─────────────────┼─────────────────┐
                     ▼                 ▼                 ▼
           ┌────────────────┐ ┌────────────────┐ ┌────────────────┐

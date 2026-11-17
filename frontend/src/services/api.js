@@ -30,9 +30,9 @@ export function getApiErrorMessage(error, fallback = 'The analysis could not be 
   return fallback;
 }
 
-export async function analyzeTicker(ticker) {
+export async function analyseTicker(ticker) {
   const symbol = normalizeTicker(ticker);
-  const { data } = await client.get(`/analyze/${encodeURIComponent(symbol)}`);
+  const { data } = await client.get(`/analyse/${encodeURIComponent(symbol)}`);
   return data;
 }
 

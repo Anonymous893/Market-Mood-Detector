@@ -155,7 +155,7 @@ export default function SearchBar({ ticker, setTicker, loading, onSubmit, recent
             {loading ? (
               <span className="flex items-center gap-2">
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Analyzing</span>
+                <span>Analysing</span>
               </span>
             ) : (
               'Analyse'

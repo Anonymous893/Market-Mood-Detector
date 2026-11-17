@@ -1,7 +1,7 @@
 """Integration tests for the FastAPI routes.
 
 Uses httpx.AsyncClient + ASGITransport (no live server needed).
-Mocks analyze_ticker to avoid real HTTP calls in CI.
+Mocks analyse_ticker to avoid real HTTP calls in CI.
 """
 import pytest
 from httpx import AsyncClient, ASGITransport
@@ -51,7 +51,7 @@ async def test_health_version():
 async def test_invalid_ticker_characters():
     from main import app
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
-        r = await client.get("/analyze/INVALID$TICKER!")
+        r = await client.get("/analyse/INVALID$TICKER!")
     assert r.status_code == 400
     data = r.json()
     assert data["success"] is False
@@ -62,15 +62,15 @@ async def test_invalid_ticker_characters():
 async def test_ticker_too_long():
     from main import app
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
-        r = await client.get("/analyze/TOOLONGTICKER1234")
+        r = await client.get("/analyse/TOOLONGTICKER1234")
     assert r.status_code == 422  # FastAPI path validation
 
 
-async def test_analyze_mocked():
+async def test_analyse_mocked():
     from main import app
-    with patch("api.routes.analyze_ticker", new_callable=AsyncMock, return_value=_MOCK_RESULT):
+    with patch("api.routes.analyse_ticker", new_callable=AsyncMock, return_value=_MOCK_RESULT):
         async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
-            r = await client.get("/analyze/TSLA")
+            r = await client.get("/analyse/TSLA")
     assert r.status_code == 200
     data = r.json()
     assert data["ticker"] == "TSLA"
@@ -78,11 +78,11 @@ async def test_analyze_mocked():
     assert data["confidence_score"] == 65.0
 
 
-async def test_analyze_response_has_new_fields():
+async def test_analyse_response_has_new_fields():
     from main import app
-    with patch("api.routes.analyze_ticker", new_callable=AsyncMock, return_value=_MOCK_RESULT):
+    with patch("api.routes.analyse_ticker", new_callable=AsyncMock, return_value=_MOCK_RESULT):
         async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
-            r = await client.get("/analyze/TSLA")
+            r = await client.get("/analyse/TSLA")
     data = r.json()
     assert "trend" in data
     assert "source_contributions" in data

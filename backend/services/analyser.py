@@ -102,11 +102,11 @@ def _reasons(
     out: list[str] = []
 
     if bullish_ratio > 0.60:
-        out.append(f"{bullish_ratio * 100:.0f}% of analyzed Yahoo Finance articles are bullish")
+        out.append(f"{bullish_ratio * 100:.0f}% of analysed Yahoo Finance articles are bullish")
     elif bearish_ratio > 0.60:
-        out.append(f"{bearish_ratio * 100:.0f}% of analyzed Yahoo Finance articles are bearish")
+        out.append(f"{bearish_ratio * 100:.0f}% of analysed Yahoo Finance articles are bearish")
     elif neutral_ratio > 0.50:
-        out.append(f"Majority of analyzed coverage is neutral ({neutral_ratio * 100:.0f}%)")
+        out.append(f"Majority of analysed coverage is neutral ({neutral_ratio * 100:.0f}%)")
 
     if abs(avg_sentiment) > 0.25:
         direction = "strongly positive" if avg_sentiment > 0 else "strongly negative"
@@ -121,19 +121,19 @@ def _reasons(
         out.append("Negative momentum — recent Yahoo Finance articles are more bearish than older ones")
 
     if consensus > 0.75:
-        out.append("Strong agreement among the analyzed articles")
+        out.append("Strong agreement among the analysed articles")
     elif consensus < 0.45:
         out.append("Mixed signals — Yahoo Finance coverage is split on direction")
 
     if volatility < 0.12:
         out.append("Low volatility — the FinBERT signal is relatively consistent")
     elif volatility > 0.30:
-        out.append("High volatility — the analyzed headlines have conflicting sentiment")
+        out.append("High volatility — the analysed headlines have conflicting sentiment")
 
     if articles_24h >= 8:
         out.append(f"Active recent coverage ({articles_24h} Yahoo Finance articles in the last 24 h)")
     elif articles_24h == 0:
-        out.append("No analyzed articles were published in the last 24 hours")
+        out.append("No analysed articles were published in the last 24 hours")
 
     if not out:
         out.append(f"Current market mood: {verdict}")
@@ -141,7 +141,7 @@ def _reasons(
     return out
 
 
-async def analyze_ticker(ticker: str) -> dict[str, Any]:
+async def analyse_ticker(ticker: str) -> dict[str, Any]:
     ticker = ticker.upper()
     t_total = time.perf_counter()
 

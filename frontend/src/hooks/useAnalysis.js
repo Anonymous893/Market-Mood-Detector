@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { analyzeTicker, getApiErrorMessage } from '../services/api';
+import { analyseTicker, getApiErrorMessage } from '../services/api';
 import { useRecentSearches } from './useRecentSearches';
 
 const PHASES = [
@@ -29,7 +29,7 @@ export function useAnalysis() {
 
   useEffect(() => () => clearTimers(), [clearTimers]);
 
-  const analyze = useCallback(async (symbol) => {
+  const analyse = useCallback(async (symbol) => {
     const sym = (symbol ?? ticker).trim().toUpperCase();
     if (!sym) {
       setError('Please enter a ticker symbol.');
@@ -50,7 +50,7 @@ export function useAnalysis() {
     });
 
     try {
-      const result = await analyzeTicker(sym);
+      const result = await analyseTicker(sym);
       if (currentRequest !== requestId.current) return;
 
       clearTimers();
@@ -70,5 +70,5 @@ export function useAnalysis() {
     }
   }, [ticker, addRecent, clearTimers]);
 
-  return { ticker, setTicker, loading, phase, data, error, analyze, recentSearches };
+  return { ticker, setTicker, loading, phase, data, error, analyse, recentSearches };
 }

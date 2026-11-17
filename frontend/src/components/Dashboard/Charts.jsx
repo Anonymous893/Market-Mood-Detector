@@ -36,7 +36,7 @@ function RadarPanel({ advanced_stats, totalArticles }) {
 
   return (
     <div className={PANEL}>
-      <ChartHeader title="Market Strength Radar" subtitle="Normalized view of the backend's core signal dimensions" />
+      <ChartHeader title="Market Strength Radar" subtitle="normalized view of the backend's core signal dimensions" />
       <div className="h-60">
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={data}>

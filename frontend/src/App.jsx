@@ -10,12 +10,12 @@ import { FOCUS_RING } from './constants/ui';
 const APP_VERSION = '2.0.0';
 
 export default function App() {
-  const { ticker, setTicker, loading, phase, data, error, analyze, recentSearches } = useAnalysis();
+  const { ticker, setTicker, loading, phase, data, error, analyse, recentSearches } = useAnalysis();
   const { isDark, toggle } = useTheme();
 
   const handleStockSelect = (symbol) => {
     setTicker(symbol);
-    analyze(symbol);
+    analyse(symbol);
   };
 
   return (
@@ -83,7 +83,7 @@ export default function App() {
                 ticker={ticker}
                 setTicker={setTicker}
                 loading={loading}
-                onSubmit={(t) => analyze(t)}
+                onSubmit={(t) => analyse(t)}
                 recentSearches={recentSearches}
               />
 

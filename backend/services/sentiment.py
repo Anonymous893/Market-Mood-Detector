@@ -57,7 +57,7 @@ def get_model_name() -> str:
 
 
 def clean_text(text: str) -> str:
-    """Normalize article text before sending it to FinBERT."""
+    """normalize article text before sending it to FinBERT."""
     text = unicodedata.normalize("NFKC", text or "")
     text = re.sub(r"https?://\S+|www\.\S+", " ", text)
     text = re.sub(r"<[^>]+>", " ", text)

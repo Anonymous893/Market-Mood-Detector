@@ -8,7 +8,7 @@ from fastapi import APIRouter, HTTPException, Path, Query
 from db import history as db
 from models.schemas import AnalysisResponse, HealthResponse, HistoryAnalytics
 from services import cache as _cache
-from services.analyzer import analyze_ticker
+from services.analyser import analyse_ticker
 from services.sentiment import get_model_name
 
 logger = logging.getLogger(__name__)
@@ -31,10 +31,10 @@ async def health():
 
 
 @router.get(
-    "/analyze/{ticker}",
+    "/analyse/{ticker}",
     response_model=AnalysisResponse,
     tags=["Analysis"],
-    summary="Analyze market mood from Yahoo Finance news",
+    summary="Analyse market mood from Yahoo Finance news",
     responses={
         400: {"description": "Invalid ticker symbol"},
         500: {"description": "Analysis pipeline failed"},
@@ -50,7 +50,7 @@ async def health():
                             "confidence_score": 61.4,
                             "model_used": "finbert",
                             "verdict_reasons": [
-                                "72% of analyzed Yahoo Finance articles are bullish",
+                                "72% of analysed Yahoo Finance articles are bullish",
                                 "Average FinBERT sentiment is moderately positive (+0.18)",
                             ],
                             "cached": False,
@@ -62,7 +62,7 @@ async def health():
         }
     },
 )
-async def analyze_stock(
+async def analyse_stock(
     ticker: str = Path(
         ...,
         min_length=1,
@@ -86,7 +86,7 @@ async def analyze_stock(
 
     logger.info("Market mood analysis requested: %s", ticker)
     try:
-        return await analyze_ticker(ticker)
+        return await analyse_ticker(ticker)
     except Exception as exc:
         logger.exception("Analysis failed for %s", ticker)
         raise HTTPException(

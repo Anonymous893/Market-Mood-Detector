@@ -1,6 +1,6 @@
 """Tests for confidence formula, verdict reasons, and trend computation."""
 import pytest
-from services.analyzer import _confidence, _reasons, _compute_trend
+from services.analyser import _confidence, _reasons, _compute_trend
 
 
 # ── confidence ─────────────────────────────────────────────────
